@@ -1,0 +1,11 @@
+E:\study\CSharp_tasks\ForumAPI\Forum.Dal\bin\Debug\netcoreapp3.1\Forum.Dal.deps.json
+E:\study\CSharp_tasks\ForumAPI\Forum.Dal\bin\Debug\netcoreapp3.1\Forum.Dal.dll
+E:\study\CSharp_tasks\ForumAPI\Forum.Dal\bin\Debug\netcoreapp3.1\Forum.Models.dll
+E:\study\CSharp_tasks\ForumAPI\Forum.Dal\bin\Debug\netcoreapp3.1\Forum.Models.pdb
+E:\study\CSharp_tasks\ForumAPI\Forum.Dal\obj\Debug\netcoreapp3.1\Forum.Dal.csprojAssemblyReference.cache
+E:\study\CSharp_tasks\ForumAPI\Forum.Dal\obj\Debug\netcoreapp3.1\Forum.Dal.AssemblyInfoInputs.cache
+E:\study\CSharp_tasks\ForumAPI\Forum.Dal\obj\Debug\netcoreapp3.1\Forum.Dal.AssemblyInfo.cs
+E:\study\CSharp_tasks\ForumAPI\Forum.Dal\obj\Debug\netcoreapp3.1\Forum.Dal.csproj.CopyComplete
+E:\study\CSharp_tasks\ForumAPI\Forum.Dal\bin\Debug\netcoreapp3.1\Forum.Dal.pdb
+E:\study\CSharp_tasks\ForumAPI\Forum.Dal\obj\Debug\netcoreapp3.1\Forum.Dal.dll
+E:\study\CSharp_tasks\ForumAPI\Forum.Dal\obj\Debug\netcoreapp3.1\Forum.Dal.pdb
