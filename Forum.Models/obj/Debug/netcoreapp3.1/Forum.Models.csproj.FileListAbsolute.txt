@@ -1,8 +1,0 @@
-E:\study\CSharp_tasks\ForumAPI\Forum.Models\bin\Debug\netcoreapp3.1\Forum.Models.deps.json
-E:\study\CSharp_tasks\ForumAPI\Forum.Models\bin\Debug\netcoreapp3.1\Forum.Models.dll
-E:\study\CSharp_tasks\ForumAPI\Forum.Models\bin\Debug\netcoreapp3.1\Forum.Models.pdb
-E:\study\CSharp_tasks\ForumAPI\Forum.Models\obj\Debug\netcoreapp3.1\Forum.Models.csprojAssemblyReference.cache
-E:\study\CSharp_tasks\ForumAPI\Forum.Models\obj\Debug\netcoreapp3.1\Forum.Models.AssemblyInfoInputs.cache
-E:\study\CSharp_tasks\ForumAPI\Forum.Models\obj\Debug\netcoreapp3.1\Forum.Models.AssemblyInfo.cs
-E:\study\CSharp_tasks\ForumAPI\Forum.Models\obj\Debug\netcoreapp3.1\Forum.Models.dll
-E:\study\CSharp_tasks\ForumAPI\Forum.Models\obj\Debug\netcoreapp3.1\Forum.Models.pdb
