@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Forum.Models.ArticlesManagement
+﻿namespace Forum.Models.ArticlesManagement
 {
     public class FilterArticle
     {

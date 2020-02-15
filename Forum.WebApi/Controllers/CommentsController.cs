@@ -1,12 +1,15 @@
-﻿using Forum.Models.ArticlesManagement;
+﻿using System;
+using Forum.Models.ArticlesManagement;
 using Forum.Models.CommentsManagement;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Forum.Services.CommentsManagement;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Forum.WebApi.Controllers
 {
+    [Authorize]
     [Route("[controller]")]
     [ApiController]
     public class CommentsController : ControllerBase
@@ -18,57 +21,55 @@ namespace Forum.WebApi.Controllers
             _commentService = articleService;
         }
 
+        [AllowAnonymous]
         [HttpGet]
-        [Route("{articleId:guid:length(36)}")]
-        public async Task<ActionResult<IEnumerable<Article>>> GetComments(string articleId)
+        public async Task<ActionResult<IEnumerable<Article>>> GetComments(Guid articleId)
         {
             var articles = await _commentService.GetCommentsByArticleId(articleId);
             return Ok(articles);
         }
 
-        [HttpGet]
-        [Route("{articleId:guid:length(36)}/{commentId:guid:length(36)}")]
-        public async Task<ActionResult<Comment>> GetComment(string commentId)
+        [AllowAnonymous]
+        [HttpGet("{commentId:guid}")]
+        public async Task<ActionResult<Comment>> GetComment(Guid commentId)
         {
             var comment = await _commentService.GetEntityAsync(commentId);
+
             return Ok(comment);
         }
 
         [HttpPost]
-        [Route("{articleId:guid:length(36)}")]
-        public async Task<ActionResult<Comment>> AddComment([FromBody] CommentRequest commentRequest, string articleId)
-        {
-            if(!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var comment = await _commentService.CreateEntityAsync(commentRequest);
-            if (comment == null)
-                return BadRequest();
-
-            var uri = $"/articles/{articleId}/{comment.Id}";
-            return Created(uri, comment);
-        }
-
-        [HttpPut]
-        [Route("{articleId:guid:length(36)}/{commentId:guid:length(36)}")]
-        public async Task<ActionResult> UpdateComment(string commentId, [FromBody] CommentRequest articleRequest)
+        public async Task<ActionResult<Comment>> AddComment([FromBody] CommentRequest commentRequest)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+            commentRequest.UserName = HttpContext.User.Identity.Name;
+            var comment = await _commentService.CreateEntityAsync(commentRequest);
 
-            await _commentService.UpdateEntityAsync(commentId, articleRequest);
+            var uri = $"/articles/{comment.Id}";
+            return Created(uri, comment);
+        }
+
+        [HttpPut("{commentId:guid}")]
+        public async Task<ActionResult> UpdateComment(Guid commentId, [FromBody] CommentRequest commentRequest)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            commentRequest.UserName = HttpContext.User.Identity.Name;
+            await _commentService.UpdateEntityAsync(commentId, commentRequest);
+
             return NoContent();
         }
 
-        [HttpDelete]
-        [Route("{articleId:guid:length(36)}/{commentId:guid:length(36)}")]
-        public async Task<ActionResult> DeleteComment(string commentId)
+        [HttpDelete("{commentId:guid}")]
+        public async Task<ActionResult> DeleteComment(Guid commentId)
         {
             await _commentService.DeleteEntityAsync(commentId);
+
             return Ok();
         }
     }

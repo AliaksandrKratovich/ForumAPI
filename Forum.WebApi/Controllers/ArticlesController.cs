@@ -1,11 +1,14 @@
 ﻿using Forum.Models.ArticlesManagement;
 using Forum.Services.ArticlesManagement;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Forum.WebApi.Controllers
 {
+    [Authorize]
     [Route("[controller]")]
     [ApiController]
     public class ArticlesController : ControllerBase
@@ -15,70 +18,65 @@ namespace Forum.WebApi.Controllers
         {
             _articleService = articleService;
         }
+
+        [AllowAnonymous]
         [HttpGet]
-        [Route("")]
         public async Task<ActionResult<IEnumerable<Article>>> GetArticles()
         {
             var articles = await _articleService.GetEntitiesAsync();
             return Ok(articles);
         }
 
-        [HttpGet]
-        [Route("search")]
+        [AllowAnonymous]
+        [HttpGet("search")]
         public async Task<ActionResult<IEnumerable<Article>>> GetSortedArticles([FromBody]FilterArticle filter)
         {
             var articles = await _articleService.GetArticlesByOccurrenceAsync(filter.Title, filter.UserName, filter.Category);
             return Ok(articles);
         }
 
-        [HttpGet]
-        [Route("{articleId:guid:length(36)}")]
-        public async Task<ActionResult<Article>> GetArticle(string articleId)
+        [AllowAnonymous]
+        [HttpGet("{articleId:guid}")]
+        public async Task<ActionResult<Article>> GetArticle(Guid articleId)
         {
             var article = await _articleService.GetEntityAsync(articleId);
-            
-            if (article == null)
-            {
-                return NotFound();
-            }
+
             return Ok(article);
         }
 
         [HttpPost]
-        [Route("")]
         public async Task<ActionResult<Article>> AddArticle([FromBody] ArticleRequest articleRequest)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            
+
+            articleRequest.UserName = HttpContext.User.Identity.Name;
             var article = await _articleService.CreateEntityAsync(articleRequest);
-            if (article == null)
-                return BadRequest();
 
             var uri = $"/articles/{article.Id}";
             return Created(uri, article);
         }
 
-        [HttpPut]
-        [Route("{articleId:guid:length(36)}")]
-        public async Task<ActionResult> UpdateArticle(string articleId, [FromBody] ArticleRequest articleRequest)
+        [HttpPut("{articleId:guid}")]
+        public async Task<ActionResult> UpdateArticle(Guid articleId, [FromBody] ArticleRequest articleRequest)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
+            articleRequest.UserName = HttpContext.User.Identity.Name;
             await _articleService.UpdateEntityAsync(articleId, articleRequest);
+           
             return NoContent();
         }
-
-        [HttpDelete]
-        [Route("{articleId:guid:length(36)}")]
-        public async Task<ActionResult> DeleteArticle(string articleId)
+        
+        [HttpDelete("{articleId:guid}")]
+        public async Task<ActionResult> DeleteArticle(Guid articleId)
         {
             await _articleService.DeleteEntityAsync(articleId);
+
             return Ok();
         }
     }

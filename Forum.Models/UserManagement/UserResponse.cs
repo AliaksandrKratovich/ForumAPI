@@ -1,18 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace Forum.Models.CommentsManagement
+namespace Forum.Models.UserManagement
 {
-    public class CommentRequest
+    public class UserResponse
     {
         public Guid Id { get; set; }
-
-        public Guid ArticleId { get; set; }
-
-        public string Content { get; set; }
-
         public string UserName { get; set; }
+        public string Token { get; set; }
 
     }
 }

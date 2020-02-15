@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using AutoMapper;
+﻿using AutoMapper;
 using Forum.Models.ArticlesManagement;
+using System;
 
 namespace Forum.Services.ArticlesManagement
 {
@@ -14,7 +12,7 @@ namespace Forum.Services.ArticlesManagement
             CreateMap<ArticleRequest, Article>()
                .ForMember(dest => dest.Id,
                    opt => opt.MapFrom(src =>
-                       (src.Id.Length == 36 ? new Guid(src.Id) : new Guid())))
+                       (src.Id == Guid.Empty ? new Guid() : src.Id )))
                .ForMember(dest => dest.Content,
                    opt => opt.MapFrom(src => src.Content))
                .ForMember(dest => dest.CreatedDate, opt => opt.MapFrom(src => DateTime.Now))

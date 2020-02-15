@@ -1,8 +1,6 @@
-﻿using System;
+﻿using Forum.Models.ArticlesManagement;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
-using Forum.Models.ArticlesManagement;
 
 namespace Forum.Services.ArticlesManagement
 {

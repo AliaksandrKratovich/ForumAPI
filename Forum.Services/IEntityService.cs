@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Forum.Services
@@ -9,12 +8,12 @@ namespace Forum.Services
     {
         Task<IEnumerable<TEntity>> GetEntitiesAsync();
 
-        Task<TEntity> GetEntityAsync(string entityId);
+        Task<TEntity> GetEntityAsync(Guid entityId);
 
         Task<TEntity> CreateEntityAsync(TRequestEntity entityRequest);
 
-        Task<TEntity> UpdateEntityAsync(string entityId, TRequestEntity entityRequest);
+        Task<TEntity> UpdateEntityAsync(Guid entityId, TRequestEntity entityRequest);
 
-        Task DeleteEntityAsync(string entityId);
+        Task<bool> DeleteEntityAsync(Guid entityId);
     }
 }
