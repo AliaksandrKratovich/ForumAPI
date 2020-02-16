@@ -1,9 +1,8 @@
-﻿using System.Threading.Tasks;
-using Forum.Dal.DatabaseAccess;
-using Forum.Models.ArticlesManagement;
+﻿using Forum.Dal.DatabaseAccess;
+using Forum.Models.ErrorHandling;
 using Forum.Models.UserManagement;
-using Forum.WebApi.ErrorHandling;
 using MongoDB.Driver;
+using System.Threading.Tasks;
 
 namespace Forum.Dal.Repositories.UserRepository
 {
@@ -23,7 +22,7 @@ namespace Forum.Dal.Repositories.UserRepository
             }
             catch
             {
-                throw new ResponseException("finding user error", 500);
+                throw new DatabaseException("finding user error");
             }
         }
 
@@ -35,7 +34,7 @@ namespace Forum.Dal.Repositories.UserRepository
             }
             catch
             {
-                throw new ResponseException("finding user error", 500);
+                throw new DatabaseException("finding user error");
             }
         }
         public async Task CreateUser(User user)
@@ -46,7 +45,7 @@ namespace Forum.Dal.Repositories.UserRepository
             }
             catch
             {
-                throw new ResponseException("error adding user to database", 500);
+                throw new DatabaseException("error adding user to database");
             }
         }
     }

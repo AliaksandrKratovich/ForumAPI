@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Forum.Dal.Repositories.UserRepository;
+using Forum.Models.ErrorHandling.Exceptions;
 using Forum.Models.Security;
 using Forum.Models.UserManagement;
 using Microsoft.Extensions.Options;
@@ -30,7 +31,7 @@ namespace Forum.Services.UserManagement
             var user = await _repository.Find(loginUser.Email);
 
             if (Authenticate(user, loginUser.Password) == null)
-                return null;
+                throw new UnauthorizedException("this user unregistered");
 
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_jwtOptions.Secret);
@@ -60,7 +61,7 @@ namespace Forum.Services.UserManagement
         {
             if (await _repository.Exists(registerUser.Email, registerUser.UserName) != null)
             {
-                return null;
+                throw new UnauthorizedException("Such user already exists");
             }
             var user = _mapper.Map<RegisterUserRequest, User>(registerUser);
 

@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Forum.Models.UserManagement;
+﻿using Forum.Models.UserManagement;
 using Forum.Services.UserManagement;
-using Forum.WebApi.Options;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace Forum.WebApi.Controllers
 {
@@ -33,20 +28,14 @@ namespace Forum.WebApi.Controllers
         public async Task<ActionResult<UserResponse>> Login([FromBody] LoginUserRequest loginUser)
         {
             var user = await _userService.AuthenticateUser(loginUser);
-            if (user == null)
-            {
-                return BadRequest("unregistered user");
-            }
 
             return Ok(user);
         }
 
         [Authorize]
         [HttpGet("Get")]
-        public async Task<ActionResult<UserResponse>> Login()
+        public  ActionResult<UserResponse> Login()
         {
-           
-
             return Ok(new {id = "Object"});
         }
     }

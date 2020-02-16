@@ -1,13 +1,13 @@
-﻿using Forum.Dal.DatabaseAccess;
-using Forum.Models.CommentsManagement;
-using Forum.WebApi.ErrorHandling;
-using MongoDB.Bson;
-using MongoDB.Driver;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Forum.Dal.DatabaseAccess;
+using Forum.Models.CommentsManagement;
+using Forum.Models.ErrorHandling;
+using MongoDB.Bson;
+using MongoDB.Driver;
 
-namespace Forum.Dal.Repository
+namespace Forum.Dal.Repositories
 {
     public class CommentRepository : IRepository<Comment>
     {
@@ -26,7 +26,7 @@ namespace Forum.Dal.Repository
             }
             catch
             {
-                throw new ResponseException("adding comment to database error", 500);
+                throw new DatabaseException("adding comment to database error");
             }
         }
 
@@ -38,7 +38,7 @@ namespace Forum.Dal.Repository
             }
             catch
             {
-                throw new ResponseException("finding comment error", 500);
+                throw new DatabaseException("finding comment error");
             }
         }
 
@@ -50,7 +50,7 @@ namespace Forum.Dal.Repository
             }
             catch
             {
-                throw new ResponseException("finding comments error", 500);
+                throw new DatabaseException("finding comments error");
             }
         }
 
@@ -64,7 +64,7 @@ namespace Forum.Dal.Repository
             }
             catch
             {
-                throw new ResponseException("deleting comment error", 500);
+                throw new DatabaseException("deleting comment error");
             }
 
 
@@ -88,7 +88,7 @@ namespace Forum.Dal.Repository
             }
             catch
             {
-                throw new ResponseException("updating comment error", 500);
+                throw new DatabaseException("updating comment error");
             }
 
             return actionResult.IsAcknowledged

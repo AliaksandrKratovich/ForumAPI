@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Forum.Models.ErrorHandling;
+using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System;
 using System.Net;
@@ -42,7 +43,7 @@ namespace Forum.WebApi.ErrorHandling
 
             response.ContentType = "application/json";
             response.StatusCode = statusCode;
-            await response.WriteAsync(JsonConvert.SerializeObject(new Error
+            await response.WriteAsync(JsonConvert.SerializeObject(new ErrorOptions
             {
                 Message = message,
                 StatusCode = statusCode

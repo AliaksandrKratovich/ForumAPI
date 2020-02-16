@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
-using Forum.Dal.Repository;
+using Forum.Dal.Repositories;
 using Forum.Models.ArticlesManagement;
+using Forum.Models.ErrorHandling;
 using Forum.WebApi.ErrorHandling;
 using System;
 using System.Collections.Generic;
@@ -20,21 +21,17 @@ namespace Forum.Services.ArticlesManagement
         }
         public async Task<Article> CreateEntityAsync(ArticleRequest articleRequest)
         {
-
-            var article = _mapper.Map<ArticleRequest, Article>(articleRequest);
-            if (article.Content.Length >= 2000)
+            if (articleRequest.Content.Length >= 2000)
             {
-                throw new ResponseException("articles bad content length", 400);
+                throw new BadRequestException("articles bad content length");
             }
+            var article = _mapper.Map<ArticleRequest, Article>(articleRequest);
 
             var articles = await _repository.GetAll();
             if (articles.Select(a => a.Title).Contains(articleRequest.Title))
             {
-                throw new ResponseException("article already exists with such title", 400);
+                throw new BadRequestException("article already exists with such title");
             }
-            if (article == null)
-                throw new ResponseException("article wasn't created", 400);
-
 
             await _repository.Add(article);
             return article;
@@ -44,7 +41,7 @@ namespace Forum.Services.ArticlesManagement
         {
             if ((await _repository.GetAll()).All(c => c.Id != articleId))
             {
-                throw new ResponseException("there is no article with such id", 400);
+                throw new NotFoundException("there is no article with such id");
             }
             return await _repository.Remove(articleId);
         }
@@ -54,7 +51,7 @@ namespace Forum.Services.ArticlesManagement
             var article = await _repository.Find(articleId);
             if (article == null)
             {
-                throw new ResponseException("not found article", 404);
+                throw new NotFoundException("not found article");
             }
 
             return article;
@@ -67,13 +64,13 @@ namespace Forum.Services.ArticlesManagement
 
         public async Task<Article> UpdateEntityAsync(Guid articleId, ArticleRequest articleRequest)
         {
-            var article = _mapper.Map<ArticleRequest, Article>(articleRequest);
-            if (article.Content.Length >= 200)
+            if (articleRequest.Content.Length >= 2000)
             {
-                throw new ResponseException("articles bad content length", 400);
+                throw new BadRequestException("article has  more than 2000 symbols content length");
             }
-            
-            if (!await  _repository.Update(article))
+            var article = _mapper.Map<ArticleRequest, Article>(articleRequest);
+
+            if (!await _repository.Update(article))
             {
                 throw new ResponseException("article did not update", 500);
             }
@@ -84,16 +81,9 @@ namespace Forum.Services.ArticlesManagement
         {
             var articles = await _repository.GetAll();
             var filterArticles = articles?.Where(s => (title != null && s.Title.IndexOf(title) != -1) ||
-                                                      (userName != null && s.UserName.IndexOf(userName) != -1)).ToList();
+                                                      (userName != null && s.UserName.IndexOf(userName) != -1)
+                                                      ||(category != null && s.Category.ToString().ToLower().Contains(category.ToLower()))).ToList();
 
-            if (category != null)
-            {
-                category = category.ToLower();
-                var filterArticlesByCategories = articles?.Where(v => v.Category.ToString().ToLower().Contains(category)).ToList();
-
-                filterArticles = filterArticles
-                   ?.Concat(filterArticlesByCategories).ToList();
-            }
             return filterArticles?.Count != 0 ? filterArticles : null;
         }
     }

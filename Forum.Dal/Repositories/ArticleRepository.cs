@@ -1,13 +1,13 @@
-﻿using Forum.Dal.DatabaseAccess;
-using Forum.Models.ArticlesManagement;
-using Forum.WebApi.ErrorHandling;
-using MongoDB.Bson;
-using MongoDB.Driver;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Forum.Dal.DatabaseAccess;
+using Forum.Models.ArticlesManagement;
+using Forum.Models.ErrorHandling;
+using MongoDB.Bson;
+using MongoDB.Driver;
 
-namespace Forum.Dal.Repository
+namespace Forum.Dal.Repositories
 {
     public class ArticleRepository : IRepository<Article>
     {
@@ -26,7 +26,7 @@ namespace Forum.Dal.Repository
             }
             catch
             {
-                throw new ResponseException("error adding article to database", 500);
+                throw new DatabaseException("error adding article to database");
             }
         }
 
@@ -38,7 +38,7 @@ namespace Forum.Dal.Repository
             }
             catch
             {
-                throw new ResponseException("finding article in database error", 500);
+                throw new DatabaseException("finding article in database error");
             }
         }
 
@@ -50,7 +50,7 @@ namespace Forum.Dal.Repository
             }
             catch
             {
-                throw new ResponseException("finding articles in database error", 500);
+                throw new DatabaseException("finding articles in database error");
             }
         }
 
@@ -64,7 +64,7 @@ namespace Forum.Dal.Repository
             }
             catch
             {
-                throw new ResponseException("deleting article from database error", 500);
+                throw new DatabaseException("deleting article from database error");
             }
 
             return actionResult.IsAcknowledged && actionResult.DeletedCount > 0;
@@ -87,7 +87,7 @@ namespace Forum.Dal.Repository
             }
             catch
             {
-                throw new ResponseException("article updating error  ", 500);
+                throw new DatabaseException("article updating error  ");
             }
 
             return actionResult.IsAcknowledged

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
-using Forum.Dal.Repository;
+using Forum.Dal.Repositories;
 using Forum.Models.CommentsManagement;
+using Forum.Models.ErrorHandling;
 using Forum.WebApi.ErrorHandling;
 using System;
 using System.Collections.Generic;
@@ -21,11 +22,12 @@ namespace Forum.Services.CommentsManagement
         }
         public async Task<Comment> CreateEntityAsync(CommentRequest commentRequest)
         {
-            var comment = _mapper.Map<CommentRequest, Comment>(commentRequest);
-            if (comment.Content.Length >= 200)
+            if (commentRequest.Content.Length >= 200)
             {
-                throw new ResponseException("comments bad content length", 400);
+                throw new BadRequestException("comments bad content length");
             }
+            var comment = _mapper.Map<CommentRequest, Comment>(commentRequest);
+            
 
             await _repository.Add(comment);
             return comment;
@@ -35,7 +37,7 @@ namespace Forum.Services.CommentsManagement
         {
             if ((await _repository.GetAll()).All(c => c.Id != entityId))
             {
-                throw new ResponseException("there is no comment with such id", 400);
+                throw new NotFoundException("there is no comment with such id");
             }
 
             return await _repository.Remove(entityId);
@@ -44,7 +46,7 @@ namespace Forum.Services.CommentsManagement
         public async Task<IEnumerable<Comment>> GetCommentsByArticleId(Guid articleId)
         {
             var comments = await _repository.GetAll();
-            return comments.Where(c => c.ArticleId == articleId).ToList();
+            return comments?.Where(c => c.ArticleId == articleId)?.ToList();
         }
 
         public async Task<IEnumerable<Comment>> GetEntitiesAsync()
@@ -57,7 +59,7 @@ namespace Forum.Services.CommentsManagement
             var comment = await _repository.Find(entityId);
             if (comment == null)
             {
-                throw new ResponseException("not found comment", 404);
+                throw new NotFoundException("not found comment");
             }
 
             return comment;
@@ -65,12 +67,14 @@ namespace Forum.Services.CommentsManagement
 
         public async Task<Comment> UpdateEntityAsync(Guid entityId, CommentRequest entityRequest)
         {
+            if (entityRequest.Content.Length >= 200)
+            {
+                throw new BadRequestException("comment has more than 200 symbols content length");
+            }
+
             entityRequest.Id = entityId;
             var comment = _mapper.Map<CommentRequest, Comment>(entityRequest);
-            if (comment.Content.Length >= 200 )
-            {
-                throw new ResponseException("comments bad content length", 400);
-            }
+            
             if (!await _repository.Update(comment))
             {
                 throw new ResponseException("comment did not update", 500);

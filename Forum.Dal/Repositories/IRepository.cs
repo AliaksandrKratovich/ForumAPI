@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Forum.Dal.Repository
+namespace Forum.Dal.Repositories
 {
     public interface IRepository<T> where T : class
     {

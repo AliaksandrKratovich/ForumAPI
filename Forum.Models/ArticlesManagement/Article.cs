@@ -15,5 +15,7 @@ namespace Forum.Models.ArticlesManagement
         public string Content { get; set; } = string.Empty;
         [BsonDateTimeOptions]
         public DateTime CreatedDate { get; set; }
+
+
     }
 }

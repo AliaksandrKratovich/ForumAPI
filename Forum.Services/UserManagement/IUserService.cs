@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Forum.Models.UserManagement;
 using System.Threading.Tasks;
-using Forum.Models.UserManagement;
 
 namespace Forum.Services.UserManagement
 {
-   public interface IUserService
+    public interface IUserService
    {
        Task<UserResponse> CreateUserAccount(RegisterUserRequest registerUser);
 
