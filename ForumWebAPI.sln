@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Forum.Services", "Forum.Ser
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Forum.Dal", "Forum.Dal\Forum.Dal.csproj", "{062B83E7-A591-4555-AD2D-DA715E08A5C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.Tests", "Forum.Tests\Forum.Tests.csproj", "{35D592B3-AFB7-4CA2-A493-B72FA4BF3593}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Forum.Tests", "Forum.Tests\Forum.Tests.csproj", "{35D592B3-AFB7-4CA2-A493-B72FA4BF3593}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

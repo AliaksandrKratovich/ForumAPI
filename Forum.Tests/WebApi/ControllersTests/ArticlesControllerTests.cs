@@ -57,12 +57,7 @@ namespace Forum.Tests.WebApi.ControllersTests
             _mockArticleService.Setup(ser => ser.GetArticlesByOccurrenceAsync(title, userName, category)
             ).ReturnsAsync(expectedArticles);
 
-            var okObjectResult = (_controller.GetSortedArticles(new FilterArticle
-            {
-                Title = title,
-                UserName = userName,
-                Category = category
-            }).Result.Result as OkObjectResult)?.Value;
+            var okObjectResult = (_controller.GetSortedArticles( title, userName,category).Result.Result as OkObjectResult)?.Value;
 
             var result = okObjectResult as IEnumerable<Article> ?? throw new InvalidOperationException();
 

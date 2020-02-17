@@ -29,9 +29,9 @@ namespace Forum.WebApi.Controllers
 
         [AllowAnonymous]
         [HttpGet("search")]
-        public async Task<ActionResult<IEnumerable<Article>>> GetSortedArticles([FromBody]FilterArticle filter)
+        public async Task<ActionResult<IEnumerable<Article>>> GetSortedArticles(string title, string userName, string category)
         {
-            var articles = await _articleService.GetArticlesByOccurrenceAsync(filter.Title, filter.UserName, filter.Category);
+            var articles = await _articleService.GetArticlesByOccurrenceAsync(title, userName, category);
             return Ok(articles);
         }
 

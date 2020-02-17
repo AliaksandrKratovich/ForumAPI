@@ -31,12 +31,5 @@ namespace Forum.WebApi.Controllers
 
             return Ok(user);
         }
-
-        [Authorize]
-        [HttpGet("Get")]
-        public  ActionResult<UserResponse> Login()
-        {
-            return Ok(new {id = "Object"});
-        }
     }
 }
