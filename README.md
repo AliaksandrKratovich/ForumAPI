@@ -10,6 +10,7 @@ A simple backend implementation of website for users, who can create/submit arti
 - Was added articles search by partial title occurrence, username or category;
 - Was provided CRUD operations for entities;
 - As a database was used MongoDB.
+- Was added unit testing (XUnit).
 
 ## Start application
 
