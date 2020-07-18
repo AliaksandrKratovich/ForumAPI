@@ -17,6 +17,6 @@ A simple backend implementation of website for users, who can create/submit arti
 Launch MongoDB.
 
 *If you didn't install MongoDB client, you can get it [here](https://www.mongodb.com/try/download/community)*
-- Ensure you have such directories: C:\data\db.
+- Ensure you have such directories: C:\data\db -  on Windows OS and \data\db on Linux or MacOS.
 - Start solution (set Forum.WebApi as a startup poject).
 - Use swagger UI to interact with application.
